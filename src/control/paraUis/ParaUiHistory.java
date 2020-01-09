@@ -20,7 +20,7 @@ public class ParaUiHistory extends UIHistory{
 		this.createTable(this.createTittles(), table);
 	}
 	public String[] createTittles() {
-		String[] tittles = {"Tittle", "ISBN", "Operation", "Total", "Date"};
+		String[] tittles = {"Tittle", "ISBN", "Operation", "Changes","Total", "Date"};
 		return tittles;
 	}
 	public void createTable(String [] tittles, String[][] data)
