@@ -6,6 +6,8 @@ import javax.swing.table.JTableHeader;
 
 import Enum.Procedure;
 import command.commandGetter.CommandManagerGetter;
+import events.EventFilterDateHistory;
+import events.TableCreator;
 import view.ModeloPersonalizado;
 import view.TableHeadGestor;
 import view.UIHistory;
@@ -13,28 +15,23 @@ import view.UIHistory;
 public class ParaUiHistory extends UIHistory{
 	private static final long serialVersionUID = 1L;
 	public ParaUiHistory() {
-		HashMap<String,String> data = new HashMap<String,String>();
-		data.put("key", "");
-		data.put("procedure", Procedure.getHistory.getSintax());
-		String[][]table= (String[][]) CommandManagerGetter.getIntance().getCommand(Procedure.getHistory.getValidateName()).execute(data);
-		this.createTable(this.createTittles(), table);
+		TableCreator tableCreator = new TableCreator(getTableBook(), getScrollPaneTable());
+		this.getBtnFilter().addActionListener(new EventFilterDateHistory(tableCreator,this.getDateBegin(), this.getDateEnd()));
+		this.createTable(tableCreator);
 	}
 	public String[] createTittles() {
 		String[] tittles = {"Tittle", "ISBN", "Operation", "Changes","Total", "Date"};
 		return tittles;
 	}
-	public void createTable(String [] tittles, String[][] data)
+	public void createTable(TableCreator creatorTable)
 	{
-		ModeloPersonalizado model = new ModeloPersonalizado(data, tittles);
+		HashMap<String,String> data = new HashMap<String,String>();
+		data.put("key", "");
+		data.put("procedure", Procedure.getHistory.getSintax());
+		String[][]tableData= (String[][]) CommandManagerGetter.getIntance().getCommand(Procedure.getHistory.getValidateName()).execute(data);
 		
-		getTableBook().setModel(model);
-		
-		JTableHeader jtableHeader = getTableBook().getTableHeader();
-	    jtableHeader.setDefaultRenderer(new TableHeadGestor());
-	    getTableBook().setTableHeader(jtableHeader); 
-	    
-	    getScrollPaneTable().setViewportView(getTableBook());
-	    
+		creatorTable.createTable( this.createTittles(), tableData);
+	   
 	    
 	}
 }

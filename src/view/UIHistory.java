@@ -21,6 +21,10 @@ public class UIHistory extends JDialog {
 	private ArrayList<JLabel>labels = new ArrayList<JLabel>();
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
 	private Editor editor;
+	private JDateChooser dateBegin;
+	private JDateChooser dateEnd;
+	private JButton btnFilter;
+	private JButton btnBestSeller;
 	
 	public UIHistory() {
 		this.editor = Editor.instance();
@@ -55,11 +59,11 @@ public class UIHistory extends JDialog {
 		
 	}
 	private void addButtons() {
-		JButton btnBestSeller = new JButton("Best seller");
+		btnBestSeller = new JButton("Best seller");
 		btnBestSeller.setBounds(618, 38, 139, 37);
 		contentPane.add(btnBestSeller);
 		
-		JButton btnFilter = new JButton("Filter");
+		btnFilter = new JButton("Filter");
 		btnFilter.setBounds(358, 38, 151, 37);
 		contentPane.add(btnFilter);
 		
@@ -67,12 +71,12 @@ public class UIHistory extends JDialog {
 		this.buttons.add(btnFilter);
 	}
 	private void addCalendar() {
-		JDateChooser dateBegin = new JDateChooser();
+		dateBegin = new JDateChooser();
 		dateBegin.setBounds(34, 50, 136, 25);
 		contentPane.add(dateBegin);
 		Calendar c = Calendar.getInstance();
 		
-		JDateChooser dateEnd = new JDateChooser(c.getTime());
+		dateEnd = new JDateChooser(c.getTime());
 		dateEnd.setBounds(198, 50, 136, 25);
 		contentPane.add(dateEnd);
 	}
@@ -98,4 +102,32 @@ public class UIHistory extends JDialog {
 	public JScrollPane getScrollPaneTable() {
 		return scrollPaneTable;
 	}
+	public JDateChooser getDateBegin() {
+		return dateBegin;
+	}
+	public void setDateBegin(JDateChooser dateBegin) {
+		this.dateBegin = dateBegin;
+	}
+	public JDateChooser getDateEnd() {
+		return dateEnd;
+	}
+	public void setDateEnd(JDateChooser dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+	public JButton getBtnFilter() {
+		return btnFilter;
+	}
+	public void setBtnFilter(JButton btnFilter) {
+		this.btnFilter = btnFilter;
+	}
+	public JButton getBtnBestSeller() {
+		return btnBestSeller;
+	}
+	public void setBtnBestSeller(JButton btnBestSeller) {
+		this.btnBestSeller = btnBestSeller;
+	}
+	public void setTableBook(JTable tableBook) {
+		this.tableBook = tableBook;
+	}
+	
 }
