@@ -1,11 +1,15 @@
 package events;
 
 
+import java.util.HashMap;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import Enum.Procedure;
+import command.commandGetter.CommandManagerGetter;
 import view.ModeloPersonalizado;
 import view.TableHeadGestor;
 
@@ -25,6 +29,18 @@ public class TableCreator {
 	    table.setTableHeader(jtableHeader); 
 	    scroll.setViewportView(table);
 	    
-	    
+	}
+	public String[][] getDataTableHistory() {
+		HashMap<String, String> data = new HashMap<String, String>();
+		data.put("key", "");
+		data.put("procedure", Procedure.getHistory.getSintax());
+		String[][] tableData = (String[][]) CommandManagerGetter.getIntance()
+				.getCommand(Procedure.getHistory.getValidateName()).execute(data);
+		
+		return tableData;
+	}
+	public String[] createTittlesHistory() {
+		String[] tittles = {"Tittle", "ISBN", "Operation", "Changes","Total", "Date"};
+		return tittles;
 	}
 }

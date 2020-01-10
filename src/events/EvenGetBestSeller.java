@@ -5,38 +5,50 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import com.toedter.calendar.JDateChooser;
 
-import Enum.Procedure;
-import command.commandGetter.CommandManagerGetter;
 import control.paraUis.ParaUiWindowError;
 
-public class EventFilterDateHistory implements ActionListener {
+public class EvenGetBestSeller implements ActionListener {
+	TableCreator tableCreator;
 	JDateChooser beginDate;
-	private JDateChooser endDate;
-	private TableCreator tableCreator;
+	JDateChooser endDate;
 	private int CAMPOS;
-	public EventFilterDateHistory(TableCreator tableCreator, JDateChooser beginDate, JDateChooser endDate) {
-		this.beginDate = beginDate;
-		this.endDate = endDate;
-		this.tableCreator = tableCreator;
+	public EvenGetBestSeller(TableCreator tableCreator, JDateChooser dateBegin, JDateChooser dateEnd) {
+		this.beginDate=dateBegin;
+		this.endDate=dateEnd;
+		this.tableCreator=tableCreator;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent arg0) {
 		if (this.beginDate.getDate() != null) { 
-			String [] tittles= this.tableCreator.createTittlesHistory();
 			String[][] dataTableWithoutFilter = this.tableCreator.getDataTableHistory();
 			this.CAMPOS=dataTableWithoutFilter[0].length;
 			String[][] dataTable = this.getValidData(dataTableWithoutFilter);
-			this.tableCreator.createTable(tittles,dataTable);
+			this.getBestSeller(dataTable);
 		} else {
 			ParaUiWindowError err = new ParaUiWindowError("Seleccione una fecha de inicio");
 			err.setVisible(true);
 		}
-
+	}
+	private void getBestSeller(String[][] dataTable) {
+		int max=0;
+		String tittle=null;
+		for (int i = 0; i < dataTable.length; i++) {
+			for (int j = 0; j < dataTable[i].length; j++) {
+				if(dataTable[i][j] != null)
+				if(j == 2 && dataTable[i][j].equals("Amount decreased")) {
+					if(Integer.valueOf(dataTable[i][j+1]) >= max) {
+						max=Integer.valueOf(dataTable[i][j+1]);
+						tittle=dataTable[i][0];
+					};
+				}
+			}
+		}
+		ParaUiWindowError err = new ParaUiWindowError(tittle);
+		err.setVisible(true);
 	}
 
 	private String[][] getValidData(String[][] tableData) {
